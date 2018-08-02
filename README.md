@@ -25,6 +25,7 @@ E.g: a 10ms value would result in a 10ms timeout, or 0.01 seconds.
 If not specified, will default to 0, which is equivalent to no timeout.
 
 <p>
+### Command Output
 
 In the event of success, the command will return the following information:
 
