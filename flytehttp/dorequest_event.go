@@ -24,16 +24,16 @@ import (
 
 type DoRequestInput struct {
 	Method  string        `json:"method"`
-	URL     string        `json:"string"`
-	Headers http.Header   `json:"headers"`
+	URL     string        `json:"url"`
+	Header http.Header   `json:"header"`
 	Body    string        `json:"body"`
-	Timeout time.Duration `json:"timeout"`
+	Timeout time.Duration `json:"timeout,string"`
 }
 
 type doRequestOutputPayload struct {
 	StatusCode int         `json:"statusCode"`
 	Header     http.Header `json:"header"`
-	Body       interface{} `json:"responseBody"`
+	Body       interface{} `json:"body"`
 }
 
 type doRequestErrorOutputPayload struct {

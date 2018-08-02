@@ -24,25 +24,18 @@ import (
 	"testing"
 )
 
-//Add tests for all individual Methods? or "supported" ones? - i.e: POST, PATCH, GET
+func TestDoRequestCommandShouldReturnSuccessEventIfDoRequestIsSuccessful(t *testing.T) {
 
-func TestDoRequestCommandShouldReturnSuccessEventIfDoRequestIsSuccessful(t *testing.T) { //Repurpose this to be specific to POST?
-
-	expectedHeader := http.Header{"Content-Type": {"text/plain"}}
-	var expectedResponse = doRequestOutputPayload{
+	var expectedResponse = &doRequestOutputPayload{
 		StatusCode: http.StatusOK,
-		Body:       "",
-		Header:     expectedHeader,
 	}
 
 	command := DoRequestCommand()
-	outputEvent := command.Handler(json.RawMessage(`{"method":"POST", "url":"http://example.com", "body":"test", "headers":{"Testheader":["Test"]}}, "timeout":"10"`))
+	outputEvent := command.Handler(json.RawMessage(`{"method":"GET", "url":"http://www.google.com"}`))
 	assert.Equal(t, doRequestSuccessEventDef, outputEvent.EventDef)
 
-	var payload = outputEvent.Payload.(doRequestOutputPayload)
+	var payload = outputEvent.Payload.(*doRequestOutputPayload)
 	assert.Equal(t, expectedResponse.StatusCode, payload.StatusCode)
-	assert.Equal(t, expectedResponse.Body, payload.Body)
-	assert.Contains(t, payload.Header, expectedResponse.Header)
 }
 
 func TestDoRequestCommandShouldReturnFatalFlyteEventIfJsonCannotBeUnmarshalled(t *testing.T) {
@@ -62,6 +55,7 @@ func TestDoRequestCommandShouldReturnErrorEventIfMethodIsEmpty(t *testing.T) {
 	assert.Equal(t, "no method provided", payload.Error)
 }
 
+//not required?
 func TestDoRequestCommandShouldReturnErrorEventIfUrlIsEmpty(t *testing.T) {
 	command := DoRequestCommand()
 	outputEvent := command.Handler(json.RawMessage(`{"method":"POST", "url":"", "body":"test", "headers":{"Testheader":["Test"]}, "timeout":"10"}`))
@@ -77,5 +71,5 @@ func TestDoRequestCommandShouldReturnErrorEventIfDoRequestReturnsError(t *testin
 
 	var payload = outputEvent.Payload.(doRequestErrorOutputPayload)
 	assert.Equal(t, doRequestErrorEventDef, outputEvent.EventDef)
-	assert.Equal(t, "", payload.Error)
+	assert.Contains(t, payload.Error, "parse ://: missing protocol scheme")
 }

@@ -42,7 +42,7 @@ func DoRequest(client HttpClient, input DoRequestInput) (*doRequestOutputPayload
 		return nil, err
 	}
 
-	req.Header = input.Headers
+	req.Header = input.Header
 
 	resp, err := client.Do(req)
 	if err != nil {

@@ -41,7 +41,7 @@ func TestDoRequestUsingPost(t *testing.T) {
 	}))
 
 	headers := http.Header{"X-Random-Value": {"text/plain"}}
-	input := DoRequestInput{Method: http.MethodPost, Headers: headers, Body: "The Body", URL: ts.URL}
+	input := DoRequestInput{Method: http.MethodPost, Header: headers, Body: "The Body", URL: ts.URL}
 
 	client := &http.Client{}
 
@@ -76,7 +76,7 @@ func TestDoRequestShouldConstructCorrectRequestFromInput(t *testing.T) {
 	randomHeader := fmt.Sprintf("X-Random-%d", rand.Int())
 
 	headers := http.Header{randomHeader: {rv1, rv2}, "X-Another-Header": {"Is Present"}}
-	input := DoRequestInput{Method: http.MethodPost, Body: "The Body!", Headers: headers, URL: ts.URL + "/testuri"}
+	input := DoRequestInput{Method: http.MethodPost, Body: "The Body!", Header: headers, URL: ts.URL + "/testuri"}
 
 	client := &http.Client{}
 
