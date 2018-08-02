@@ -9,3 +9,5 @@ flyte-http
 *.swp
 
 /vendor
+
+.DS_Store
